@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate simple interest, maturity value, and view year-by-year growth with this modern, interactive Simple Interest Calculator. Real-time charts, rate comparison, and export features.">
+    <meta name="keywords" content="simple interest calculator, finance calculator, interest rate, maturity amount, investment calculator">
+    <title>Simple Interest Calculator | Fast, Modern & Accurate</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-decorations" aria-hidden="true">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="app-header">
+        <div class="container header-container">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="logo-title">Interest<span class="highlight">Pulse</span></h1>
+                    <p class="logo-subtitle">Simple Interest Calculator</p>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <!-- Currency Selector -->
+                <div class="currency-selector-wrapper">
+                    <label for="currency-select" class="sr-only">Choose Currency</label>
+                    <div class="custom-select">
+                        <select id="currency-select" aria-label="Currency Selector">
+                            <option value="$" data-code="USD" selected>USD ($)</option>
+                            <option value="₹" data-code="INR">INR (₹)</option>
+                            <option value="€" data-code="EUR">EUR (€)</option>
+                            <option value="£" data-code="GBP">GBP (£)</option>
+                            <option value="¥" data-code="JPY">JPY (¥)</option>
+                            <option value="C$" data-code="CAD">CAD (C$)</option>
+                            <option value="A$" data-code="AUD">AUD (A$)</option>
+                        </select>
+                        <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle-btn" class="icon-button" aria-label="Toggle dark/light theme" title="Toggle Theme">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container main-content">
+        <!-- Hero Header -->
+        <section class="intro-section">
+            <span class="badge-pill">Smart Financial Planner</span>
+            <h2 class="hero-headline">Grow & Calculate Your Returns Instantly</h2>
+            <p class="hero-subtext">Compute exact simple interest, explore real-time balance projections, and compare multiple interest rate scenarios.</p>
+        </section>
+
+        <!-- Calculator Grid Layout -->
+        <div class="calculator-layout">
+            <!-- Left Panel: Interactive Inputs -->
+            <section class="glass-card input-panel" aria-labelledby="input-heading">
+                <div class="panel-header">
+                    <h3 id="input-heading" class="panel-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                            <line x1="8" y1="6" x2="16" y2="6"></line>
+                            <line x1="16" y1="14" x2="16" y2="18"></line>
+                            <path d="M16 10h.01"></path>
+                            <path d="M12 10h.01"></path>
+                            <path d="M8 10h.01"></path>
+                            <path d="M12 14h.01"></path>
+                            <path d="M8 14h.01"></path>
+                            <path d="M12 18h.01"></path>
+                            <path d="M8 18h.01"></path>
+                        </svg>
+                        Investment Parameters
+                    </h3>
+                    <button id="reset-btn" class="btn-text" title="Reset to defaults">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+
+                <form id="calculator-form" onsubmit="event.preventDefault();" class="calculator-form">
+                    <!-- Principal Amount -->
+                    <div class="input-field-group">
+                        <div class="field-label-row">
+                            <label for="principal-input" class="field-label">Principal Amount (P)</label>
+                            <span class="field-hint">Initial investment / loan</span>
+                        </div>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol-display" id="principal-currency">$</span>
+                            <input 
+                                type="number" 
+                                id="principal-input" 
+                                name="principal" 
+                                min="100" 
+                                max="10000000" 
+                                step="100" 
+                                value="50000" 
+                                required 
+                                aria-label="Principal Amount"
+                            >
+                        </div>
+                        <input 
+                            type="range" 
+                            id="principal-slider" 
+                            min="1000" 
+                            max="1000000" 
+                            step="1000" 
+                            value="50000" 
+                            class="range-slider"
+                            aria-label="Principal Amount Slider"
+                        >
+                        <!-- Quick Add Chips -->
+                        <div class="chips-container" aria-label="Quick Principal Additions">
+                            <span class="chip-label">Quick add:</span>
+                            <button type="button" class="chip-btn" data-add-principal="5000">+5,000</button>
+                            <button type="button" class="chip-btn" data-add-principal="25000">+25,000</button>
+                            <button type="button" class="chip-btn" data-add-principal="50000">+50,000</button>
+                            <button type="button" class="chip-btn" data-add-principal="100000">+100,000</button>
+                        </div>
+                    </div>
+
+                    <!-- Annual Interest Rate -->
+                    <div class="input-field-group">
+                        <div class="field-label-row">
+                            <label for="rate-input" class="field-label">Annual Interest Rate (R)</label>
+                            <span class="field-hint">% per year</span>
+                        </div>
+                        <div class="input-with-symbol rate-input-wrapper">
+                            <input 
+                                type="number" 
+                                id="rate-input" 
+                                name="rate" 
+                                min="0.1" 
+                                max="50" 
+                                step="0.1" 
+                                value="7.5" 
+                                required 
+                                aria-label="Interest Rate Percentage"
+                            >
+                            <span class="percent-symbol">%</span>
+                        </div>
+                        <input 
+                            type="range" 
+                            id="rate-slider" 
+                            min="0.5" 
+                            max="25" 
+                            step="0.1" 
+                            value="7.5" 
+                            class="range-slider"
+                            aria-label="Interest Rate Slider"
+                        >
+                        <!-- Quick Rate Presets -->
+                        <div class="chips-container" aria-label="Common Rate Presets">
+                            <span class="chip-label">Presets:</span>
+                            <button type="button" class="chip-btn rate-preset-btn" data-set-rate="4.5">4.5% (Savings)</button>
+                            <button type="button" class="chip-btn rate-preset-btn active" data-set-rate="7.5">7.5% (FD)</button>
+                            <button type="button" class="chip-btn rate-preset-btn" data-set-rate="10">10% (Bonds)</button>
+                            <button type="button" class="chip-btn rate-preset-btn" data-set-rate="12.5">12.5% (Equity/Loan)</button>
+                        </div>
+                    </div>
+
+                    <!-- Time Period -->
+                    <div class="input-field-group">
+                        <div class="field-label-row">
+                            <label for="time-input" class="field-label">Time Period (T)</label>
+                            <div class="unit-toggle" role="group" aria-label="Time period unit">
+                                <button type="button" id="unit-years-btn" class="unit-btn active" data-unit="years">Years</button>
+                                <button type="button" id="unit-months-btn" class="unit-btn" data-unit="months">Months</button>
+                            </div>
+                        </div>
+                        <div class="input-with-symbol time-input-wrapper">
+                            <input 
+                                type="number" 
+                                id="time-input" 
+                                name="time" 
+                                min="1" 
+                                max="40" 
+                                step="0.5" 
+                                value="5" 
+                                required 
+                                aria-label="Time Duration"
+                            >
+                            <span class="time-unit-label" id="time-unit-display">Years</span>
+                        </div>
+                        <input 
+                            type="range" 
+                            id="time-slider" 
+                            min="1" 
+                            max="30" 
+                            step="0.5" 
+                            value="5" 
+                            class="range-slider"
+                            aria-label="Time Duration Slider"
+                        >
+                        <!-- Quick Duration Chips -->
+                        <div class="chips-container" aria-label="Quick Duration Selection">
+                            <span class="chip-label">Quick select:</span>
+                            <button type="button" class="chip-btn duration-chip" data-set-time="1">1 Yr</button>
+                            <button type="button" class="chip-btn duration-chip" data-set-time="3">3 Yrs</button>
+                            <button type="button" class="chip-btn duration-chip active" data-set-time="5">5 Yrs</button>
+                            <button type="button" class="chip-btn duration-chip" data-set-time="10">10 Yrs</button>
+                            <button type="button" class="chip-btn duration-chip" data-set-time="15">15 Yrs</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Right Panel: Results & Visualizations -->
+            <section class="results-panel" aria-labelledby="results-heading">
+                <!-- Hero Total Maturity Amount Card -->
+                <div class="glass-card hero-result-card">
+                    <div class="hero-top-row">
+                        <div>
+                            <span class="result-label-tag">Total Maturity Value</span>
+                            <div class="maturity-amount-wrapper">
+                                <span class="currency-hero" id="hero-currency">$</span>
+                                <span class="amount-hero" id="total-amount-display">68,750</span>
+                            </div>
+                        </div>
+                        <div class="growth-badge" id="growth-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
+                            <span id="growth-percentage">+37.5%</span>
+                        </div>
+                    </div>
+                    <div class="hero-equation-preview">
+                        Principal (<span id="preview-p">$50,000</span>) + Total Interest (<span id="preview-i">$18,750</span>)
+                    </div>
+                </div>
+
+                <!-- Metrics Grid: Principal & Total Interest -->
+                <div class="metrics-grid">
+                    <div class="glass-card metric-card principal-metric">
+                        <div class="metric-indicator principal-indicator"></div>
+                        <div class="metric-body">
+                            <span class="metric-title">Principal Invested</span>
+                            <div class="metric-val">
+                                <span class="curr-sm" id="principal-res-curr">$</span>
+                                <span id="principal-result-val">50,000</span>
+                            </div>
+                            <span class="metric-percentage" id="principal-pct-val">72.7% of total</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card metric-card interest-metric">
+                        <div class="metric-indicator interest-indicator"></div>
+                        <div class="metric-body">
+                            <span class="metric-title">Total Simple Interest</span>
+                            <div class="metric-val text-accent">
+                                <span class="curr-sm" id="interest-res-curr">$</span>
+                                <span id="interest-result-val">18,750</span>
+                            </div>
+                            <span class="metric-percentage" id="interest-pct-val">27.3% of total</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card metric-card rate-metric">
+                        <div class="metric-indicator rate-indicator"></div>
+                        <div class="metric-body">
+                            <span class="metric-title">Annual Return / Earn</span>
+                            <div class="metric-val">
+                                <span class="curr-sm" id="annual-res-curr">$</span>
+                                <span id="annual-return-val">3,750</span>
+                            </div>
+                            <span class="metric-percentage" id="monthly-return-sub">~$312.50 / month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donut Chart & Visual Breakdown -->
+                <div class="glass-card chart-card">
+                    <div class="chart-header">
+                        <h4 class="chart-title">Breakdown Ratio</h4>
+                        <div class="legend-group">
+                            <div class="legend-item">
+                                <span class="legend-dot dot-principal"></span>
+                                <span>Principal</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot dot-interest"></span>
+                                <span>Interest</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="svg-donut-wrapper">
+                            <svg class="donut-svg" viewBox="0 0 200 200" id="donut-chart-svg" aria-label="Principal versus Interest breakdown donut chart">
+                                <circle class="donut-bg" cx="100" cy="100" r="70" />
+                                <circle class="donut-segment donut-principal-segment" id="donut-principal-circle" cx="100" cy="100" r="70" />
+                                <circle class="donut-segment donut-interest-segment" id="donut-interest-circle" cx="100" cy="100" r="70" />
+                            </svg>
+                            <div class="donut-center-info">
+                                <span class="donut-center-label">Interest Share</span>
+                                <span class="donut-center-val" id="donut-center-pct">27.3%</span>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar Fallback / Side stats -->
+                        <div class="chart-side-stats">
+                            <div class="progress-bar-stack" aria-label="Visual representation of ratio">
+                                <div class="progress-segment seg-principal" id="bar-principal" style="width: 72.7%;"></div>
+                                <div class="progress-segment seg-interest" id="bar-interest" style="width: 27.3%;"></div>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Interest to Principal Ratio</span>
+                                <span class="stat-figure" id="ratio-display">1 : 0.38</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Effective Annual Yield</span>
+                                <span class="stat-figure" id="effective-yield-display">7.50%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Doubling Time (Rule of 72)</span>
+                                <span class="stat-figure" id="doubling-time-display">~9.6 Years</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Toolbar -->
+                <div class="actions-toolbar">
+                    <button type="button" id="copy-summary-btn" class="action-btn btn-secondary">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy Summary
+                    </button>
+                    <button type="button" id="export-csv-btn" class="action-btn btn-secondary">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Export CSV
+                    </button>
+                    <button type="button" id="print-schedule-btn" class="action-btn btn-primary">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        Print Report
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Section: Dynamic Step-by-Step Formula Explanation -->
+        <section class="glass-card formula-section" aria-labelledby="formula-heading">
+            <div class="section-title-wrap">
+                <div class="section-badge">How It Works</div>
+                <h3 id="formula-heading" class="section-title">Mathematical Formula & Step-by-Step Calculation</h3>
+            </div>
+            
+            <div class="formula-cards-grid">
+                <div class="formula-box">
+                    <span class="formula-box-tag">Standard Formula</span>
+                    <div class="math-expression">
+                        <span class="math-var">Interest (I)</span> = 
+                        <span class="fraction">
+                            <span class="numerator">Principal (P) &times; Rate (R) &times; Time (T)</span>
+                            <span class="denominator">100</span>
+                        </span>
+                    </div>
+                    <div class="math-expression secondary-math">
+                        <span class="math-var">Maturity Amount (A)</span> = Principal (P) + Interest (I)
+                    </div>
+                </div>
+
+                <div class="formula-box live-calculation-box">
+                    <span class="formula-box-tag highlight-tag">With Your Current Values</span>
+                    <div class="math-expression" id="dynamic-formula-calc">
+                        <span class="math-var">I</span> = 
+                        <span class="fraction">
+                            <span class="numerator"><span class="val-p">50,000</span> &times; <span class="val-r">7.5</span> &times; <span class="val-t">5</span></span>
+                            <span class="denominator">100</span>
+                        </span>
+                        = <strong class="math-result" id="formula-interest-result">$18,750</strong>
+                    </div>
+                    <div class="math-expression secondary-math" id="dynamic-amount-calc">
+                        <span class="math-var">A</span> = <span class="val-p">50,000</span> + <span class="val-i">18,750</span> = <strong class="math-result text-accent" id="formula-total-result">$68,750</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Rate Sensitivity Comparison Table -->
+        <section class="glass-card scenario-section" aria-labelledby="scenario-heading">
+            <div class="section-title-wrap">
+                <div class="section-badge">Rate Sensitivity</div>
+                <h3 id="scenario-heading" class="section-title">Interest Rate Comparison Matrix</h3>
+                <p class="section-desc">See how a small shift in annual interest rate alters your total earnings over the same time horizon.</p>
+            </div>
+
+            <div class="comparison-table-wrapper">
+                <table class="styled-table" id="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Interest Rate</th>
+                            <th>Total Interest</th>
+                            <th>Maturity Amount</th>
+                            <th>Difference vs Current</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparison-table-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section: Year-by-Year Growth Schedule -->
+        <section class="glass-card schedule-section" aria-labelledby="schedule-heading">
+            <div class="schedule-header">
+                <div>
+                    <div class="section-badge">Timeline</div>
+                    <h3 id="schedule-heading" class="section-title">Year-by-Year Growth Schedule</h3>
+                    <p class="section-desc">Detailed annual breakdown of opening balance, interest accrued, and accumulated closing balance.</p>
+                </div>
+                <div class="schedule-actions">
+                    <button type="button" id="toggle-table-btn" class="btn-text">
+                        <span id="toggle-table-text">Show Complete Table</span>
+                        <svg class="chevron-toggle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive" id="schedule-table-container">
+                <table class="styled-table schedule-table" id="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>Opening Balance</th>
+                            <th>Interest Added</th>
+                            <th>Cumulative Interest</th>
+                            <th>Closing Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-table-body">
+                        <!-- Populated dynamically via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section: FAQ & Common Questions -->
+        <section class="glass-card faq-section" aria-labelledby="faq-heading">
+            <div class="section-title-wrap">
+                <div class="section-badge">Knowledge Base</div>
+                <h3 id="faq-heading" class="section-title">Frequently Asked Questions</h3>
+            </div>
+
+            <div class="faq-accordion">
+                <details class="faq-item" open>
+                    <summary class="faq-question">
+                        <span>What is Simple Interest and how is it calculated?</span>
+                        <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Simple interest is calculated solely on the original principal amount. The formula is <strong>I = (P &times; R &times; T) / 100</strong>, where <strong>P</strong> is the principal amount, <strong>R</strong> is the annual interest rate, and <strong>T</strong> is the duration in years. Unlike compound interest, interest accrued in prior periods does not earn interest.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>How does Simple Interest differ from Compound Interest?</span>
+                        <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>In Simple Interest, the interest earned each year remains constant because it is always computed on the initial principal. In Compound Interest, interest is added to the principal periodically ("interest on interest"), causing the balance to grow exponentially over time.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>Where is Simple Interest commonly used in the real world?</span>
+                        <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Simple interest is frequently applied in short-term personal loans, car loans, fixed-income government bonds, promissory notes, and certain certificates of deposit (CDs).</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <div class="footer-logo">Interest<span>Pulse</span></div>
+                <p>Engineered for speed, financial clarity, and effortless calculation.</p>
+            </div>
+            <div class="footer-right">
+                <p>&copy; 2026 InterestPulse Calculator. All calculations are for informational purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="status" aria-live="polite">
+        <svg class="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toast-message">Summary copied to clipboard!</span>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
